@@ -1,0 +1,109 @@
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-dependency-plugin</artifactId>
+<executions>
+<!-- test -->
+<execution>
+	<id>copy-test</id>
+	<phase>process-resources</phase>
+	<goals>
+		<goal>copy</goal>
+	</goals>
+	<configuration>
+		<artifactItems>
+			<artifactItem>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc14</artifactId>
+			</artifactItem>
+			<artifactItem>
+				<groupId>org.testng</groupId>
+				<artifactId>testng</artifactId>
+				<version>5.8</version>
+				<classifier>jdk15</classifier>
+			</artifactItem>
+			<artifactItem>
+				<groupId>com.alipay.tcenter</groupId>
+				<artifactId>tcenter-ats</artifactId>
+				<version>1.65</version>
+			</artifactItem>
+			<artifactItem>
+				<groupId>au.com.bytecode.opencsv</groupId>
+				<artifactId>opencsv</artifactId>
+				<version>1.8</version>
+			</artifactItem>
+			<artifactItem>
+				<groupId>com.alipay.tcenter.dbcomponent</groupId>
+				<artifactId>ats-db-component</artifactId>
+				<version>1.21a</version>
+			</artifactItem>
+			<artifactItem>
+				<groupId>org.dbunit</groupId>
+				<artifactId>dbunit</artifactId>
+				<version>2.2.2</version>
+			</artifactItem>
+			<artifactItem>
+				<groupId>jmock</groupId>
+				<artifactId>jmock</artifactId>
+			</artifactItem>
+			<artifactItem>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+			</artifactItem>
+			<artifactItem>
+				<groupId>com.alipay.sofa.runtime</groupId>
+				<artifactId>sofa-runtime-test</artifactId>
+			</artifactItem>
+			<artifactItem>
+				<groupId>xerces</groupId>
+				<artifactId>xercesImpl</artifactId>
+			</artifactItem>
+			<artifactItem>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+			</artifactItem>
+			<artifactItem>
+				<groupId>com.alipay.sofa.common</groupId>
+				<artifactId>sofa-common-util</artifactId>
+			</artifactItem>
+			<artifactItem>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.4</version>
+			</artifactItem>
+			<artifactItem>
+				<groupId>jboss</groupId>
+				<artifactId>jboss-j2ee</artifactId>
+				<version>4.0.4.GA</version>
+			</artifactItem>
+			<artifactItem>
+				<groupId>jaxen</groupId>
+				<artifactId>jaxen</artifactId>
+				<version>1.1-beta-10</version>
+			</artifactItem>
+			<artifactItem>
+				<groupId>com.alipay.sofa.runtime</groupId>
+				<artifactId>sofa-runtime-jboss-extensions</artifactId>
+			</artifactItem>
+			<artifactItem>
+				<groupId>com.alipay.sofa.runtime</groupId>
+				<artifactId>sofa-runtime-osgi</artifactId>
+			</artifactItem>
+			<artifactItem>
+				<groupId>jboss</groupId>
+				<artifactId>jboss-common</artifactId>
+			</artifactItem>
+			<artifactItem>
+			
+  <groupId>com.alipay.cif.test</groupId>
+  <artifactId>cif-test-test</artifactId>
+  <version>1.0</version>
+			<classifier>tests</classifier>
+			</artifactItem>
+		</artifactItems>
+		<outputDirectory>
+			${project.build.directory}/${assembly.name}.ear/test
+		</outputDirectory>
+	</configuration>
+</execution>
+</executions>
+</plugin>

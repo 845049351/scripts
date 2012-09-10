@@ -1,0 +1,8 @@
+staffLoginName	tinghe
+endDate	2011-08-28
+pageNumb	1
+loginName	tinghe
+loginKey	true
+authorLoginName	tinghe
+startDate	2011-08-22
+curl -s -d "staffLoginName=tinghe&endDate=2011-08-22&loginName=tinghe&loginKey=true&authorLoginName=tinghe&startDate=2011-08-22" http://devtool10.p1.alipay.net/personal/queryReport.json?nocache=Tue%20Aug%2023%2019:01:44%20GMT+0800%202011

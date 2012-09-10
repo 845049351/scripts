@@ -1,0 +1,10 @@
+			<classifier>tests</classifier>
+			</artifactItem>
+		</artifactItems>
+		<outputDirectory>
+			${project.build.directory}/${assembly.name}.ear/test
+		</outputDirectory>
+	</configuration>
+</execution>
+</executions>
+</plugin>

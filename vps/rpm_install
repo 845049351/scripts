@@ -1,0 +1,124 @@
+#!/bin/bash
+#
+# WDlinux Control Panel,lamp,lnmp system install scripts
+# Created by wdlinux QQ:12571192
+# Url:http://www.wdlinux.cn
+# Last Updated 2011.03.20
+#
+
+if [[ $1 == "un" ]];then
+	echo "starting backup data..."
+	mkdir -p /www/backup
+	tar zcvf /www/backup/mysqldatdbk.tar.gz /www/wdlinux/mysql/var
+	tar zcvf /www/backup/ngconfbk.tar.gz /www/wdlinux/nginx/conf
+	tar zcvf /www/backup/apconfbk.tar.gz /www/wdlinux/apache/conf
+	rpm -e php
+	rpm -e nginx
+	rpm -e httpd
+	rpm -e mysql --nodeps
+	rpm -e vsftpd
+	rpm -e wdcp
+	rm -fr /www/web/wdcp
+	rm -fr /www/wdlinux
+	echo
+	echo "	lanmp,wdcp remove is OK"
+	echo
+	exit 0
+fi
+
+echo "Turn off selinux..."
+setenforce 0
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+echo "Check the network..."
+ping -c 2 113.105.167.1
+if [[ $? != 0 ]];then
+	echo 
+	echo "network err"
+	exit 1
+fi
+ping -c 3 dl.wdlinux.cn
+if [[ $? == 2 ]];then
+	echo
+	echo "dns error"
+	exit 1
+fi
+
+if [[ ! -d /www/wdlinux ]];then
+	echo
+	echo "rpm remove..."
+	rpm -e php
+	rpm -e httpd --nodeps
+	rpm -e mysql-server --nodeps
+	rpm -e mysql --nodeps
+fi
+
+echo "yum update..."
+yum install -y make autoconf sudo wget libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel
+
+arch=i386
+Aurl="http://dl.wdlinux.cn:5180/rpms"
+if [[ `uname -m` == "x86_64" ]];then
+	arch="x86_64"
+fi
+
+function in_finsh {
+        echo
+        echo "          configuration ,lamp or lnmp,wdcp install is finshed"
+        echo "          visit http://ip"
+        echo "          wdcp visit http://ip:8080"
+        echo "          more infomation please visit http://www.wdlinux.cn"
+        echo
+}
+
+function in_check {
+        if [[ $1 == 1 ]];then
+                echo
+                echo "============  $2 install error  ============="
+                echo
+                exit 1
+        else
+                echo
+                echo "============  $2 install OK  =============="
+                echo
+                echo
+        fi
+}
+
+
+echo "Select Install
+        1 apache + php + mysql + zend + eAccelerator + vsftpd + phpmyadmin + wdcp
+        2 nginx + php + mysql + zend + eAccelerator + vsftpd + phpmyadmin + wdcp
+        3 don't install is now
+"
+read -p "Please Input 1,2,3: " SERVER_ID
+if [[ $SERVER_ID == 2 ]];then
+        SERVER="nginx"
+	SERVERS="nginx-0.8.54-1.$arch.rpm"
+elif [[ $SERVER_ID == 1 ]];then
+        SERVER="apache"
+	SERVERS="httpd-2.2.17-1.$arch.rpm"
+else
+        exit
+fi
+
+php="php_$SERVER-5.2.17-1.$arch.rpm"
+mysql="mysql-5.1.55-1.$arch.rpm"
+vsftp="vsftpd-2.3.4-1.$arch.rpm"
+wdcp="wdcp-1.1-1.noarch.rpm"
+
+wget -c $Aurl/$mysql
+wget -c $Aurl/$SERVERS
+wget -c $Aurl/$php
+wget -c $Aurl/$vsftp
+wget -c $Aurl/$wdcp
+rpm -ivh $mysql --nodeps
+in_check $? mysql
+rpm -ivh $SERVERS
+in_check $? $SERVER
+rpm -ivh $php
+in_check $? php
+rpm -ivh $vsftp
+in_check $? vsftp
+rpm -ivh $wdcp --force
+in_check $? wdcp
+in_finsh

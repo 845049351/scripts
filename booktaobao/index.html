@@ -1,0 +1,122 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	Ark登录界面
+</title><link href="Styles/login.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+        function CheckInfo() {
+            var loginUser = document.getElementById("tbLoginName");
+            //测试环境要注释
+            var loginPwd = document.getElementById("tbPassword");
+
+            var valsp = document.getElementById("valsp");
+            var checkCode = document.getElementById("tbCheckCode");
+
+            var domain = document.getElementById("cbDomain");
+
+            //序号，取当前选中选项的序号
+            var index = domain.selectedIndex;
+
+            var domainName = domain.options[index].text;
+
+            //测试环境不注释
+            //            if (loginUser.value.replace(/\s/g, "") == ""
+            //                || (valsp.style.display != 'none'
+            //                && checkCode.value.replace(/\s/g, "") == "")) {
+            //                window.alert("请输入用户名和验证码！");
+            //                return false;
+            //            }
+
+            //测试环境要注释
+            if (loginUser.value.replace(/\s/g, "") == ""
+                || domainName.replace(/\s/g, "") == ""
+                || loginPwd.value.replace(/\s/g, "") == ""
+                || (valsp.style.display != 'none'
+                && checkCode.value.replace(/\s/g, "") == "")) {
+                window.alert("请输入用户名、密码和验证码！");
+                return false;
+            }
+            else {
+
+                var userIndex = loginUser.value.indexOf('\\');
+                if (userIndex > -1) {
+
+                    var domainNameEx = loginUser.value.substring(0, userIndex);
+                    var userNameEx = loginUser.value.replace(domainNameEx + "\\", "");
+
+                    if (userNameEx == "") {
+                        window.alert("请将\\符号及\\符号以前的内容去除,并在左边下拉框中选择！");
+                        return false;
+                    }
+
+                    var isHave = false;
+                    for (var i = 0; i < domain.options.length; i++) {
+                        if (domain.options[i].value == domainNameEx.toUpperCase()) {
+                            domain.options[i].selected = true;
+                            isHave = true;
+                            break;
+                        }
+                    }
+
+                    if (isHave) {
+
+                        loginUser.value = userNameEx;
+                    }
+                    else {
+                        window.alert("请将\\符号及\\符号以前的内容去除,并在左边下拉框中选择！");
+                        return false;
+                    }
+
+                }
+
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+    <form name="form1" method="post" action="Login.aspx?app=http%3a%2f%2ftwork.taobao.net%2f&amp;redirectURL=http%3a%2f%2ftwork.taobao.net%2fbooks%2f67%2fdownload%3ffilename%3d67.pdf" id="form1">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUIODk5ODY5OThkZJNrqiBCgWTis435+IzPV8cwp66R" />
+
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWCQLX7ProCALM79LVCAKPgMEEAqSI+pkHAoqAqQUCt/Sv8AkCt47K5AQC/eOE+Q8Cx8mR4gLxqoyAQOdAAohAU7oDUsTbTsXnAA==" />
+    <div class="region-login">
+        <div class="border-top">
+        </div>
+        <div class="login-body">
+            <div class="login-body-top">
+                <div class="login-logo">
+                </div>
+            </div>
+            <div class="login-body-middle">
+                <p style="line-height: 40px; padding-left: 6.8em;">
+                    <span style="width: 48px; display: inline-block; text-align: right">帐号：</span><select name="cbDomain" id="cbDomain" class="combox">
+	<option selected="selected" value="TAOBAO-HZ">TAOBAO-HZ</option>
+	<option value="HZ">HZ</option>
+	<option value="ALIPAY">ALIPAY</option>
+	<option value="SP">SP</option>
+
+</select>&nbsp;<input name="tbLoginName" type="text" id="tbLoginName" class="text" />
+                    <span style="color: #408CFF">（开机/邮箱用户名）</span><br />
+                    <span style="width: 48px; display: inline-block; text-align: right">密码：</span><span><input name="tbPassword" type="password" id="tbPassword" class="passWord" /></span><br />
+                    <span id="valsp" style="display: none; height: 30px"><span style="width: 48px; display: inline-block;
+                        text-align: right">验证码：</span><input name="tbCheckCode" type="text" id="tbCheckCode" class="check" />
+                        <img id="validate" style="vertical-align: middle; height: 30px; margin-bottom: 4px;
+                            margin-bottom: 15px\9; _vertical-align: top; _margin-top: 1px;" onclick="this.src=this.src+'?'
+　　　　　+Math.random();document.getElementById('errorsp').style.display='none'" title="看不清换一张" alt="" />&nbsp;看不清？<a
+         href="javascript:void(0)" onclick="document.getElementById('validate').src=document.getElementById('validate').src+'?'
+　　　　　+Math.random();document.getElementById('errorsp').style.display='none'">换一张</a>&nbsp;<span
+         id="errorsp" style="display: none; color: Red">*验证码错误</span></span>
+                    <input type="submit" name="bnLogin" value="" onclick="return CheckInfo();" id="bnLogin" class="loadbtn" />
+                    <a href="Default.aspx" class="regedit">Ark说明</a>
+                    
+                </p>
+            </div>
+        </div>
+        <div class="border-bottom">
+        </div>
+    </div>
+    </form>
+</body>
+</html>
