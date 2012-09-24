@@ -170,6 +170,31 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
+-- {{{ Set background :by tinghe
+function debug(str)
+	local file = io.open("/home/tinghe/.config/awesome/awesome.log", "a");
+	file:write(os.date("%Y-%m-%d %X") .. "  " .. str .. "\n");
+	io.close(file);
+end
+
+mybgidx = 0;
+function setbg(awful,index)
+	if index < 0 then return; end
+	local file = io.open("/home/tinghe/.config/awesome/bg.lst", "r");
+	local filearray = {}
+	for line in file:lines() do
+		table.insert(filearray, line);
+	end
+	io.close(file);
+	
+	local size = # filearray;
+	if size <= 0 then return; end
+	local bgpath = filearray[index % size + 1];
+	awful.util.spawn("awsetbg -f " .. bgpath);	
+	debug("set background: " .. bgpath);
+end
+-- }}}
+
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
@@ -217,9 +242,9 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
 	-- Add by tinghe
-	awful.key({ modkey, }, "b", function () awful.util.spawn("awsetbg -f /home/tinghe/.config/awesome/vim.jpg") end),
-	awful.key({ modkey, }, "Up", function () awful.util.spawn("amixer -q sset PCM 10%+ unmute") end),
-    awful.key({ modkey, }, "Down", function () awful.util.spawn("amixer -q sset PCM 10%- unmute") end),
+	awful.key({ modkey, }, "b",           function () setbg(awful, mybgidx); mybgidx = mybgidx + 1; end),
+	awful.key({ modkey, }, "Up",          function () awful.util.spawn("amixer -q sset PCM 10%+ unmute") end),
+    awful.key({ modkey, }, "Down",        function () awful.util.spawn("amixer -q sset PCM 10%- unmute") end),
 	awful.key({ "Mod1", "Control" }, "l", function () awful.util.spawn("xscreensaver-command -lock") end),
 	-- end add
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
