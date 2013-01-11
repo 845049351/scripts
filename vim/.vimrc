@@ -112,7 +112,7 @@ map <C-Tab> :bn<CR>
 map <S-Tab> :bp<CR>
 " NERDTree
 map <F9> :NERDTreeToggle<CR>
-set pastetoggle=<F10>
+set pastetoggle=<F6>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugin configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

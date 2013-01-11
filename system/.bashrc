@@ -72,9 +72,11 @@ if [ -x /usr/bin/dircolors ]; then
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 	alias antxd="antxexpand $1 ~/program/jboss-6.0.0.Final/server/default/deploy"
+	alias jumpold='ssh -qTfnN -D 9999 -p 65533 imbugsco@67.215.236.241'
+	alias jumpfree='sshpass -p '7659832' ssh -qTfnN -D 10001 -p 22 free@f1.8ke.in'
 	alias jump='ssh -qTfnN -D 9999 -p 65533 imbugsco@r.imbugs.com'
-	alias jump1='ssh -qTfnN -D 9999 -p 22 jslognet@r.jslog.net'
-	alias jumpfree='ssh -qTfnN -D 10001 -p 22 free@f1.8ke.in'
+#	alias jump1='ssh -qTfnN -D 9999 -p 22 jslognet@r.jslog.net'
+	alias jump1='ssh -qTfnN -D 9999 -p 22 imbugsc1@mirror.imbugs.com'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
@@ -106,6 +108,7 @@ alias mvne='mvn clean eclipse:clean eclipse:eclipse'
 alias mvnp='mvn clean package -Dmaven.test.skip=true'
 alias mvni='mvn clean install -Dmaven.test.skip=true'
 alias mvnc='mvn clean eclipse:clean clean:clean'
+alias plantuml='java -jar /opt/software/uml/plantuml.jar'
 alias svnup='svn revert --recursive .;svn update --force'
 alias dropc='su -c "echo 3 > /proc/sys/vm/drop_caches" root'
 alias go='gnome-open'
@@ -115,6 +118,10 @@ if [ -f ~/.local_env.sh ]; then
     . ~/.local_env.sh
 fi
 
+# Add autojump, jumpstat, j command
+if [ -f /usr/share/autojump/autojump.sh ]; then
+	. /usr/share/autojump/autojump.sh
+fi
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -146,4 +153,3 @@ complete -o filenames -F _filedir_xspec file
 function cb(){
 	cdargs "$1" && cd "`cat "$HOME/.cdargsresult"`"
 }
-
