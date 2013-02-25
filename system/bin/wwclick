@@ -1,0 +1,8 @@
+#!/bin/bash
+pos=`xdotool getmouselocation 2>/dev/null | sed 's/x:\([0-9]\+\)[ \t]y:\([0-9]\+\)[ \t].*/\1:\2/'`;
+xpos=`echo $pos | cut -d: -f1`;
+ypos=`echo $pos | cut -d: -f2`;
+xdotool mousemove --sync 1535 12;
+xdotool click 1;
+xdotool mousemove --sync $xpos $ypos;
+echo "test" > /tmp/test
