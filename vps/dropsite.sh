@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# add line to /etc/crontab
+# 0 0 * * 1 user /bin/bash dropsite.sh site.com username password /backup .
+
 cat <<EOF
 
 **************************
