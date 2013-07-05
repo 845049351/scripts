@@ -1,0 +1,201 @@
+#!/usr/bin/perl
+# Author:lifeng
+# Version: 1.03
+# Maintainer:Gogo
+# Location:all the webserver
+# Last Updated: 2012-01-11
+#####################################################################
+## This script used for getting some value from ra.conf when writing
+## script. The format of ra.conf is as following:
+## +--------------------------------------------------+
+## | appName,appServer,serverStatus,serverAddress  |
+## |                                                  |
+## +--------------------------------------------------+
+#####################################################################
+use strict;
+
+my $server_string;
+my $appName;
+my $status;
+my $address;
+my $argv;
+
+#取分组
+if(($ARGV[0] eq "-d1") || ($ARGV[0] eq "-d2")){
+        $server_string = $ARGV[1];
+}
+#取总数
+elsif($ARGV[0] eq "-n"){
+        $server_string = $ARGV[1];
+}
+elsif($ARGV[0] =~ m/-t/){
+        $server_string = pop @ARGV;
+        $argv = "@ARGV";
+}
+#帮助信息
+elsif(($ARGV[0] =~ m/-help/) || !$ARGV[0]){
+        print "usage: ./getvalue [OPTION] [SERVER]\nOPTION:\t-d1 for 1,3,5,...\n\t-d2 for 2,4,6,...\n\t-t4,5,6,... -c1,2,3,4,5,6,...\nOPTION:\t-n server, for the total number of server\nOPTION not set:\t1,2
+,3,4,5,6,...\nSERVER example:\n\t[appname]server[_uninit_zue]\n\t[appname]server[_zta]\n\t[appname]server[_hot]\n";
+        exit 0;
+}
+else{
+        $server_string = $ARGV[0];
+}
+my $exclude_str;
+if  ( $ARGV[1] eq "-exclude"){
+        $exclude_str = $ARGV[2];
+}
+
+my $ra_conf   = "./ra.conf";
+my $line;
+my $valid;
+my $group_value  = 0;
+my $server_value = 0;
+my $getvalue;
+my $server_list;
+my $find = 0;
+my $count = 0;
+
+#判断是否查询server
+if ( $server_string =~ m/server/ ) {
+     $server_value = 1;
+    #print $server_value;
+    #exit 1;
+    if ( $server_string !~ m/_/ ){
+        $server_string = "$server_string"."_online";
+    }
+}
+
+#逻辑已失效
+elsif ( $server_string =~ m/-+/) {
+    print $server_string;
+    exit 0;
+}
+
+else {
+    printf "can not find any server or group character in command line\n";
+    exit 1;
+}
+
+if ($server_value) {
+    $appName = substr($server_string, 0, rindex($server_string, "server"));
+    $status = substr($server_string, index($server_string, "_") + 1);
+    if ( $status !~ m/_/ ){
+        $status = $status;
+    }
+    else{
+        $address = substr($status, index($status, "_") + 1);
+        $status = substr($status, 0, rindex($status, "_"));
+#        print $status.$address;
+    }
+#    print $server_string;
+    if ( !$status ){
+        $status = "online";
+    }
+    if ( !$address ){
+        $getvalue = getStatus($appName,$status);
+    }
+    else{
+#	print $status.$address;
+        $getvalue = getStatusAddress($appName,$status,$address);
+    }
+#    $getvalue = getStatus($appName,$status);
+    if ($find){
+        my(@tmp) = split(/\s+/, $getvalue);
+        my $flag = 1;
+        if ( $ARGV[0] eq "-n" ){
+            print $count;
+        }
+        elsif( $ARGV[0] eq "-d1" ){
+                foreach(@tmp){
+                        print $_.' ' if($flag == 1);
+                        $flag *= -1;
+                }
+                exit 0;
+        }
+        elsif( $ARGV[0] eq "-d2" ){
+                foreach(@tmp){
+                        print $_.' ' if($flag == -1);
+                        $flag *= -1;
+                }
+                exit 0;
+        }
+        elsif($argv =~ m/-t\s*(\d+)\s+-c\s*(\d+)/){
+                Divide($1,$2,@tmp);
+                exit 0;
+        }
+        else{
+        print $getvalue;
+        }
+    }
+    else{
+    print "";
+    exit 0;
+    }
+}
+
+sub getStatus{
+    my ($name,$stat) = @_;
+#    print $stat;
+    my @lineFiled;
+    my $onlineStr;
+    open(FILE,$ra_conf)||die("Can not open conf!$!n");
+    while ( $line = <FILE> ) {
+        my @lineField = split /,/, $line;
+        if (( $lineField[0] eq $name )&&( $lineField[2] eq $stat )){
+            if ( $lineField[3] ne "prepub" ){
+	    $onlineStr = $onlineStr.$lineField[1].' ';
+            $count++;
+            $find = 1;
+	    }
+        }elsif(( $lineField[0] eq $name )&&( $lineField[2] eq "online" )){
+         chomp ($lineField[3]);
+         if ( $lineField[3] eq $stat ){
+             $onlineStr = $onlineStr.$lineField[1].' ';
+             $count++;
+             $find = 1;
+         }
+     }
+    }
+#    print $onlineStr;
+    return $onlineStr;
+    close FILE;
+}
+
+sub getStatusAddress{
+    my ($name,$stat,$add) = @_;
+    my @lineFiled;
+    my $onlineStr;
+    open(FILE,$ra_conf)||die("Can not open conf!$!n");
+    while ( $line = <FILE> ) {
+        my @lineField = split /,/, $line;
+        if (( $lineField[0] eq $name )&&( $lineField[2] eq $stat )){
+	    chomp ($lineField[3]);
+	    if( $lineField[3] eq $add ){
+		$onlineStr = $onlineStr.$lineField[1].' ';
+                $count++;
+                $find = 1;
+            }
+        }
+    }
+    return $onlineStr;
+    close FILE;
+}
+
+sub Divide{
+        my($groups,$number,@servers) = @_;
+        my $nu = $#servers + 1;
+        if($groups >= $nu){
+                print "$servers[$number-1]";
+        }
+        else{
+                my $tmp = $nu / $groups;
+                my $tmp2 = int($nu / $groups);
+                $tmp2++ if $tmp2 lt $tmp;
+                my $first = ($number-1) * $tmp2;
+                my $last = ($first-1) + $tmp2;
+                foreach ($first..$last){
+                        print "$servers[$_] ";
+                }
+        }
+}

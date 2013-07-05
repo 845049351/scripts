@@ -1,0 +1,214 @@
+#!/usr/bin/perl
+# Author:Bean & Blue chen &Gogo wu
+# Version: 1.00
+# Maintainer:Gogo
+# Location:all the webserver both china and us
+# Last Updated: 2004-04-001
+#####################################################################
+## This script used for getting some value from ra.conf when writing
+## script. The format of ra.conf is as following:
+## +-----------------------------------------------+
+## | #server
+## | webserver = web1 web2 web3 ........    |
+## | webserver = athena1 athena2 athen3 ........    |
+## | #group
+## | loggroup = webserver athenaserver .....  |
+## |                                             |
+## +-----------------------------------------------+
+## involked method: `getvalue "$_ing"`
+#####################################################################
+use strict;
+
+my $se_string;
+my $argv;
+if(($ARGV[0] eq "-d1") || ($ARGV[0] eq "-d2")){
+        $se_string = $ARGV[1];
+}
+elsif($ARGV[0] eq "-n"){
+        $se_string = $ARGV[1];
+}
+elsif($ARGV[0] =~ m/-t/){
+        $se_string = pop @ARGV;
+        $argv = "@ARGV";
+}
+elsif(($ARGV[0] =~ m/-help/) || !$ARGV[0]){
+        print "usage: ./getvalue [OPTION] server\nOPTION:\t-d1 for 1,3,5,...\n\t-d2 for 2,4,6,...\n\t-t4,5,6,... -c1,2,3,4,5,6,...\nOPTION:\t-n server,
+ for the total number of server\nOPTION not set:\t1,2,3,4,5,6,...\n";
+        exit 0;
+}
+else{
+        $se_string = $ARGV[0];
+}
+my $exclude_str;
+if  ( $ARGV[1] eq "-exclude"){
+        $exclude_str = $ARGV[2];
+}
+
+my $ra_conf   = ".conf/ra.conf";
+my $line;
+my $valid;
+my $group_value  = 0;
+my $server_value = 0;
+my $getvalue;
+my $server_list;
+my $find = 0;
+my $count = 0;
+
+if ( $se_string =~ m/group/ ) {
+    $group_value = 1;
+}
+elsif ( $se_string =~ m/server/ ) {
+    $server_value = 1;
+}
+elsif ( $se_string =~ m/farm/ ) {
+    $server_value = 1;
+}
+elsif ( $se_string =~ m/-+/) {
+    print $se_string;
+        exit 0;
+}
+else {
+#    printf "can not find any server or group character in command line\n";
+    printf "notfind\n";
+    exit 1;
+}
+
+
+printf "Usage:getvalue \{xxxserver \| xxxgroup\}\n" unless ( $ARGV[0] );
+if ( !-e $ra_conf ) {
+    die("can not find $ra_conf\n");
+}
+
+if ($server_value) {
+    $getvalue = getstring($se_string,$exclude_str);
+    if ($find) {
+                my(@tmp) = split(/\s+/, $getvalue);
+                my $flag = 1;
+                if($ARGV[0] eq "-d1"){
+                        foreach(@tmp){
+                                print $_.' ' if($flag == 1);
+                                $flag *= -1;
+                        }
+                        exit 0;
+                }
+                elsif($ARGV[0] eq "-d2"){
+                        foreach(@tmp){
+                                print $_.' ' if($flag == -1);
+                                $flag *= -1;
+                        }
+                        exit 0;
+                }
+                elsif($ARGV[0] eq "-n"){
+                        print $count;
+                        exit 0;
+                }
+                elsif($argv =~ m/-t\s*(\d+)\s+-c\s*(\d+)/){
+                        Divide($1,$2,@tmp);
+                        exit 0;
+                }
+                else{
+                        print $getvalue;
+                        exit 0;
+                }
+
+
+    }
+    else {
+        print "can not find $se_string";
+        exit 0;
+    }
+}
+
+elsif ($group_value) {
+        my $group_count = 0;
+    $getvalue = getstring($se_string,$exclude_str);
+    if ($find) {
+        my @server_list = split( /\s+/, $getvalue );
+        if ( @server_list[0] eq "" ) {
+            my $temp = shift @server_list;
+        }
+        foreach (@server_list) {
+                        $count = 0;
+            $server_list = getstring($_,$exclude_str);
+                        $server_list .=  ' ';  
+                        my(@tmp) = split(/\s+/, $server_list);
+                        my $flag = 1;
+                        if($ARGV[0] eq "-d1"){
+                                foreach(@tmp){
+                                        print $_.' ' if($flag == 1);
+                                        $flag *= -1;
+                                }
+                        }
+                        elsif($ARGV[0] eq "-d2"){
+                                foreach(@tmp){
+                                        print $_.' ' if($flag == -1);
+                                        $flag *= -1;
+                                }
+                        }
+                        elsif($argv =~ m/-t\s*(\d+)\s+-c\s*(\d+)/){
+                                Divide($1,$2,@tmp);
+                        }
+                        elsif($ARGV[0] ne "-n"){
+                                printf "$server_list";
+                        }
+                        $group_count += $count;
+        }
+                print $group_count if $ARGV[0] eq "-n";
+        exit 0;
+    }
+    else {
+        print "can not find $se_string";
+        exit 0;
+    }
+}
+
+sub getstring {
+    my ($str,$exstr) = @_;
+    my @exclude_list=split(/,/,$exstr);
+    open( FILE, $ra_conf );
+    while ( $line = <FILE> ) {
+        if (   $line =~ /^$str\s+=\s+(\S+)\s+#.*$/
+            || $line =~ /$str=(\S+)\s+#.*$/
+            || $line =~ /^$str=(.*)$/
+            || $line =~ /^$str\s+=\s+(.*)$/ )
+        {
+            $valid = $1;
+            $valid =~ s/^[ ]+|[ ]+$//g;
+            my $resoult;
+            my @tmp=split(/\s+/,$valid);
+            foreach (@tmp) {
+                my $tmp=$_;
+                my $flag=0;
+                foreach (@exclude_list) {
+                        my $exclude_str=$_;
+                        if ( $tmp eq $exclude_str){$flag=1;}
+                }
+                if ( $flag eq 1){next;}
+                $resoult .= $tmp." ";
+                                $count++;
+            }
+            $find = 1;
+            return $resoult;
+        }
+    }
+    close FILE;
+}
+
+sub Divide{
+        my($groups,$number,@servers) = @_;
+        my $nu = $#servers + 1;
+        if($groups >= $nu){
+                print "$servers[$number-1]";
+        }
+        else{
+                my $tmp = $nu / $groups;
+                my $tmp2 = int($nu / $groups);
+                $tmp2++ if $tmp2 lt $tmp;
+                my $first = ($number-1) * $tmp2;
+                my $last = ($first-1) + $tmp2;
+                foreach ($first..$last){
+                        print "$servers[$_] ";
+                }
+        }
+}
+

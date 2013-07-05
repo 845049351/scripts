@@ -43,7 +43,7 @@ if [ $count -gt 1 ];then
   length=${#arrtarget[@]}
   for ((i=0; i<$length; i++))
   do
-    echo -e '[\033[4;34m'$(($i+1))'\033[0m]' ${arruser[$i]}@${arrtarget[$i]}
+      echo -e '[\033[4;34m'$(($i+1))'\033[0m]' ${arruser[$i]}@${arrtarget[$i]}
   done
   echo -n "选择序号："
   choice=`GET_CHAR $length`
@@ -63,11 +63,16 @@ if [ -z $targetfullname ] || [ -z $passwd ] || [ -z $user ];then
   echo "配置文件中没有查找到匹配的信息";
   exit 1;
 fi
-if [ -z $encoding ];then
-  encoding=GB18030
-fi
+
+[ -z $encoding ] && encoding=GB18030
+
 # 可支持部分信息传入
 target=$targetfullname
 
-$SSSH_HOME/ssh-expect.sh $user $target $passwd $encoding
+[ "$user" == "?" ] && read -p "用户名: " user
 
+if [ "$passwd" == "\?" ];then
+	luit -encoding $encoding ssh $user@$target
+else
+	$SSSH_HOME/ssh-expect.sh $user $target $passwd $encoding
+fi
