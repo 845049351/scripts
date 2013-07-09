@@ -1,5 +1,9 @@
 #!/bin/bash
 
+########################
+#  FSCP v1.0 by imbugs #
+########################
+
 baseDir=$(cd "$(dirname "$0")"; pwd)
 configDirName=.fscp
 configDir=$HOME/$configDirName
