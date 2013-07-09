@@ -5,6 +5,7 @@
 ########################
 
 baseDir=$(cd "$(dirname "$0")"; pwd)
+
 configDirName=.fscp
 configDir=$HOME/$configDirName
 binDir=$configDir/bin
@@ -12,7 +13,9 @@ lockDir=$configDir/.lock
 config=$configDir/list
 sshpass=$binDir/sshpass
 fscpcmd=$binDir/fscp.sh
-rfscpcmd=$configDirName/bin/fscp.sh
+rbinDir=$configDirName/bin
+rfscpcmd=$rbinDir/fscp.sh
+
 sshparam=" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "
 leaf=3;
 
@@ -177,7 +180,7 @@ handle() {
 	# mkdir remote path and fscp config path
 	rexec $pIp $pPw "mkdir -p $rpath $configDirName"
 	# scp fscp runtime
-	nSCP $binDir $pIp $pPw $configDirName
+	nSCP $binDir $pIp $pPw $rbinDir
 	# scp files
 	nSCP $file $pIp $pPw $rpath
 #	zSCP $file $pIp $pPw $rpath
