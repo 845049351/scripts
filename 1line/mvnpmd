@@ -1,6 +1,0 @@
-#!/bin/bash
-exclude="";
-[ -z $1 ] || exclude="-Dexcludes=$1";
-cmd="mvn clean org.codehaus.mojo:cobertura-maven-plugin:2.5.1:cobertura org.apache.maven.plugins:maven-pmd-plugin:2.5.alipay:pmd -DtargetJdk=1.5 -DlinkXref=true -Daggregate=true -Dformat=csv $exclude";
-echo "exec { $cmd }";
-`$cmd`;

@@ -1,0 +1,22 @@
+To do
+
+Next minor release (v1.3)
+- Improve the client security (replace the listen.localhost property by a list of authorized ip adresses)
+- Use standard HTTP authentication (with HTTP headers)
+- Better encryption method (1 key per user)
+
+
+Next major release (v2.0)
+- Option on the client to use the proxy CONNECT method (faster, because it doesn't use the server part)
+- Full socks support (BIND method)
+- Configurable bandwidth (total, /user, /connection)
+- User ACL : allow or deny user to access sites
+- Web Administration console on the Server
+- Administration console on the Client
+
+
+Future
+- Ident tunneling
+- Allow UDP packets when in Socks5 mode
+- NTLM proxy support
+- SSL support -> Socks via HTTPS

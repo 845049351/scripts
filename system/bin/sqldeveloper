@@ -1,0 +1,2 @@
+wmname LG3D
+cd /opt/software/program/sqldeveloper/sqldeveloper/bin && bash sqldeveloper $*

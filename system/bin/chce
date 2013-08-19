@@ -1,0 +1,13 @@
+#!/bin/bash
+function help() {
+	echo "Usage: $0 version"
+	exit 0;
+}
+version=$1;
+[ -z $1 ] && help
+if [ -e $HOME/cloudengine-$version ]; then
+	rm -rf $CLOUDENGINE_HOME 
+	ln -s $HOME/cloudengine-$version $CLOUDENGINE_HOME;
+else
+	echo "cloudengine-$version not exist"
+fi

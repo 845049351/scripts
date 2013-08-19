@@ -1,0 +1,17 @@
+21/01/2013 18:11:28 - INFO  : JHttpServer/0.97 by Florent CUETO <jhttpserver@cqs.dyndns.org>
+21/01/2013 18:11:28 - INFO  : serverName = localhost
+21/01/2013 18:11:28 - INFO  : serverPort = 80
+21/01/2013 18:11:28 - INFO  : I'm not serving static documents
+21/01/2013 18:11:28 - INFO  : Listening on all IP
+21/01/2013 18:11:28 - INFO  : GZIP compression disabled
+21/01/2013 18:11:28 - INFO  : socksviahttp.server.ServletSocks: init
+21/01/2013 18:11:28 - INFO  : socksviahttp.server.admin.ServletAdmin: init
+21/01/2013 18:11:28 - FATAL : Port 80 already in use - Exiting.
+21/01/2013 18:12:58 - INFO  : JHttpServer/0.97 by Florent CUETO <jhttpserver@cqs.dyndns.org>
+21/01/2013 18:12:58 - INFO  : serverName = localhost
+21/01/2013 18:12:58 - INFO  : serverPort = 9988
+21/01/2013 18:12:58 - INFO  : I'm not serving static documents
+21/01/2013 18:12:58 - INFO  : Listening on all IP
+21/01/2013 18:12:58 - INFO  : GZIP compression disabled
+21/01/2013 18:12:58 - INFO  : socksviahttp.server.ServletSocks: init
+21/01/2013 18:12:58 - INFO  : socksviahttp.server.admin.ServletAdmin: init

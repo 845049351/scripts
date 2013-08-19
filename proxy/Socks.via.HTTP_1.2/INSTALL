@@ -1,0 +1,44 @@
+
+This INSTALL file describes the installation procedure for both windows & linux (for unix, please follow the instructions for linux).
+You can use:
+- The server on linux & the client on windows (my configuration)
+- The server on linux & the client on linux
+- The server on windows & the client on linux
+- The server on windows & the client on windows (most users will certainly do that)
+
+Prerequisites on both server & client
+-------------------------------------
+
+You need a Java Virtual Machine (JVM).
+If you don't have one, install the JDK 1.4 or the JRE 1.4.
+You can download it at http://www.java.sun.com
+(The JDK 1.2.x & 1.3.x versions are working too. Olders versions not tested)
+
+Installation on Server
+----------------------
+
+1- Edit the file classes/socksviahttp/server/initsrv.properties : THIS PART IS VERY IMPORTANT, DON'T SKIP IT OR IT WON'T WORK
+2- OPTIONAL : Edit classes/jhttpserver/inithttpsrv.properties to change the HTTP server port (default=80).
+              This is not recommended, unless you already have a web server running on port 80.
+3- In a console, launch server.bat (for windows) or server.sh (for linux. You may need to do "chmod u+x server.sh" first)
+4- Test the HTTP Server : Open a browser, go to the url http://www.yourserver.com/servlet/jhttpserver.ServletTest
+5- Test the Socks via HTTP Server part : Open a browser, go to the url http://www.yourserver.com/servlet/socksviahttp.server.admin.ServletAdmin
+		and authenticate with the admin login/password you set in initsrv.properties.
+
+PS 1 : If you already have a webserver (as Apache), you may like to install Socks via HTTP
+on a real servlet engine like Tomcat. Please refer to the tomcat documentation. Please note
+that in this case, the ServletAdmin may not work (problem with the WWW-Authenticate header).
+
+PS 2 : If your server is running on Windows, you can use server-trayicon.bat instead of
+server.bat. This allows you to run Socks via HTTP Server as a tray icon (without the annoying DOS
+window).
+
+Installation on Client
+----------------------
+
+1- Edit the file classes/socksviahttp/client/init.properties : THIS PART IS VERY IMPORTANT, DON'T SKIP IT OR IT WON'T WORK
+2- In a console, launch client.bat (for windows) or client.sh (for linux. You may need to do "chmod u+x client.sh" first).
+
+PS 2 : If your client is running on Windows, you can use client-trayicon.bat instead of
+client.bat. This allows you to run Socks via HTTP Client as a tray icon (without the annoying DOS
+window).
