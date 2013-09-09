@@ -1,0 +1,22 @@
+System Benchmarks Index Values           ,    BASELINE  ,     RESULT ,XEN,AlienVps,EcVps
+Dhrystone 2 using register variables     ,116700,18492760.5,1584.6,928.8,1753
+Double-Precision Whetstone               ,55,3025.8,550.2,385,607.2
+Execl Throughput                         ,43,3412.5,793.6,644,1075.1
+File Copy 1024 bufsize 2000 maxblocks    ,3960,652487.8,1647.7,711.8,1587
+File Copy 256 bufsize 500 maxblocks      ,1655,174249.1,1052.9,523.8,1052.5
+File Copy 4096 bufsize 8000 maxblocks    ,5800,1826961.4,3149.9,1065.3,2570.6
+Pipe Throughput                          ,12440,899656,723.2,528.6,855.7
+Pipe-based Context Switching             ,4000,142268.8,355.7,300.7,805.4
+Process Creation                         ,126,6123.4,486,471.8,1253.9
+Shell Scripts (1 concurrent)             ,42.4,5532.5,1304.8,753.8,1110.4
+Shell Scripts (8 concurrent)             ,6,764,1273.3,688.4,1040.5
+System Call Overhead                     ,15000,622609.5,415.1,351.2,560.3
+System Benchmarks Index Score            ,              ,            ,910.8,572.9,1087.9
+dd if=/dev/zero of=test bs=64k count=4k oflag=dsync,,,34.8,25.6,4.3
+time cp test test1,,,"real	0m3.809s
+user	0m0.004s
+sys	0m0.040s","real	0m9.774s
+user	0m0.012s
+sys	0m0.814s","real	0m0.353s
+user	0m0.003s
+sys	0m0.350s"
