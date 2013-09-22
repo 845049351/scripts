@@ -78,6 +78,7 @@ if [ -x /usr/bin/dircolors ]; then
 	alias jump='ssh -qTfnN -D 9999 imbugsco@r.imbugs.com'
 #	alias jump1='ssh -qTfnN -D 9999 -p 22 jslognet@r.jslog.net'
 	alias jump1='ssh -qTfnN -D 9999 -p 22 root@alindou.com'
+	alias jumpp='ssh -f -N -D 9999 -R 8888:localhost:22 root@17linux.com'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
@@ -155,3 +156,5 @@ complete -o filenames -F _filedir_xspec file
 function cb(){
 	cdargs "$1" && cd "`cat "$HOME/.cdargsresult"`"
 }
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

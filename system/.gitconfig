@@ -1,0 +1,14 @@
+[user]
+	name = imbugs
+	email = imbugs@126.com
+#[http]
+#	proxy = http://127.0.0.1:8118
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[alias]
+	st = status
+	rb = svn rebase
+	ci = commit
+	co = checkout
