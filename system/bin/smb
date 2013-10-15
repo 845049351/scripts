@@ -1,0 +1,35 @@
+#!/bin/bash
+# smb tool try to make mounting samba files easier
+# you can also use:
+# gvfs-mount to mount samba files by no root user, with ~/.smbpass for certificate, and ~/.gvfs for default directory
+#   username=<user>
+#   password=<pass>
+# eg: gvfs-mount smb://<server>/<path>/<path> [directory]
+#
+# use smbclient and original mount tool:
+# smbclient -L //<server> -U <user>
+# sudo mount -t smbfs -o username='<user>',password='<pass>' -l //<server>/<path>/<path> [directory]
+###################################################################
+
+help () {
+	echo "usage: $0 'url' [username password]"
+	exit
+}
+
+[ ! $1 ] && help
+
+SMBDIR=/mnt/autosmb
+[ -e $SMBDIR ] && sudo umount $SMBDIR
+sudo mkdir -p $SMBDIR
+
+url=${1//\\//} 
+echo "prepare smbmount $url"
+if [ $2 ]; then     
+    echo "smbmount $url $SMBDIR with password"     
+    echo sudo smbmount $url $SMBDIR -o username="$2",password="$3"
+    sudo smbmount $url $SMBDIR -o username="$2",password="$3"
+else     
+    echo "smbmount $url $SMBDIR without password"     
+    sudo smbmount $url $SMBDIR
+fi
+echo "mount to directory $SMBDIR"
