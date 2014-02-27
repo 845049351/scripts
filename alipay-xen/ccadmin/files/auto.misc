@@ -1,0 +1,1 @@
+sharedata -fstype=nfs4,rw,soft,intr,rsize=32768,wsize=32768 nfs.dev.alipay.net:/
