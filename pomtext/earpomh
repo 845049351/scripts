@@ -22,7 +22,7 @@
 				<classifier>jdk15</classifier>
 			</artifactItem>
 			<artifactItem>
-				<groupId>com.alipay.tcenter</groupId>
+				<groupId>com.imbugs.tcenter</groupId>
 				<artifactId>tcenter-ats</artifactId>
 				<version>1.65</version>
 			</artifactItem>
@@ -32,7 +32,7 @@
 				<version>1.8</version>
 			</artifactItem>
 			<artifactItem>
-				<groupId>com.alipay.tcenter.dbcomponent</groupId>
+				<groupId>com.imbugs.tcenter.dbcomponent</groupId>
 				<artifactId>ats-db-component</artifactId>
 				<version>1.21a</version>
 			</artifactItem>
@@ -50,7 +50,7 @@
 				<artifactId>junit</artifactId>
 			</artifactItem>
 			<artifactItem>
-				<groupId>com.alipay.sofa.runtime</groupId>
+				<groupId>com.imbugs.sofa.runtime</groupId>
 				<artifactId>sofa-runtime-test</artifactId>
 			</artifactItem>
 			<artifactItem>
@@ -62,7 +62,7 @@
 				<artifactId>log4j</artifactId>
 			</artifactItem>
 			<artifactItem>
-				<groupId>com.alipay.sofa.common</groupId>
+				<groupId>com.imbugs.sofa.common</groupId>
 				<artifactId>sofa-common-util</artifactId>
 			</artifactItem>
 			<artifactItem>
@@ -81,11 +81,11 @@
 				<version>1.1-beta-10</version>
 			</artifactItem>
 			<artifactItem>
-				<groupId>com.alipay.sofa.runtime</groupId>
+				<groupId>com.imbugs.sofa.runtime</groupId>
 				<artifactId>sofa-runtime-jboss-extensions</artifactId>
 			</artifactItem>
 			<artifactItem>
-				<groupId>com.alipay.sofa.runtime</groupId>
+				<groupId>com.imbugs.sofa.runtime</groupId>
 				<artifactId>sofa-runtime-osgi</artifactId>
 			</artifactItem>
 			<artifactItem>

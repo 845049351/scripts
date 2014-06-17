@@ -1,1 +1,1 @@
-/usr/bin/mysqldump apits -hdev.lab.alipay.net -uatser -pgrace  --ignore-table=apits.ts_returndetail --ignore-table=apits.ts_returninfo | /bin/gzip > /home/tinghe/scripts/mysql-backup/bin/../data/dev.lab.alipay.net/20111010/apits.sql.gz
+/usr/bin/mysqldump apits -hdev.lab.imbugs.com -uatser -pgrace  --ignore-table=apits.ts_returndetail --ignore-table=apits.ts_returninfo | /bin/gzip > /home/tinghe/scripts/mysql-backup/bin/../data/dev.lab.imbugs.com/20111010/apits.sql.gz

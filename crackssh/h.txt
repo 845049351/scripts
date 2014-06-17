@@ -1,1 +1,1 @@
-hudson.d19.alipay.net
+hudson.d19.imbugs.com
