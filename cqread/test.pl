@@ -1,8 +1,8 @@
 use strict;
 use CQPerlExt;
 
-my ($DATABASE_NAME) = "ali";
-my ($DATABASE_SET) = "Alipay";
+my ($DATABASE_NAME) = "bugs";
+my ($DATABASE_SET) = "Imbugs";
 my ($ADMIN_NAME) = "test";
 my ($ADMIN_PWD) = "";
 my $session = CQSession::Build();
