@@ -3,8 +3,8 @@
 # cqperl jwj_readpm.pl ali00009837[ÏîÄ¿ID]
 use CQPerlExt;
 
-my ($DATABASE_NAME) = "ali";
-my ($DATABASE_SET) = "Alipay";
+my ($DATABASE_NAME) = "bug";
+my ($DATABASE_SET) = "Imbugs";
 my ($ADMIN_NAME) = "test";
 my ($ADMIN_PWD) = "";
 
